@@ -3,7 +3,7 @@ root-folder: './migrations'
 modules-folder: null
 connections-file-path: './connections.toml'
 connection-name: snowflake
-change-history-table: "APP_DB.PROD.SCHEMACHANGE_HISTORY"
+change-history-table: null
 create-change-history-table: true
 autocommit: false
 verbose: true
