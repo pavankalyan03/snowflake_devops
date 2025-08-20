@@ -1,5 +1,5 @@
 config-version: 1
-root-folder: './migrations/dev'
+root-folder: './migrations'
 modules-folder: null
 connections-file-path: './connections.toml'
 connection-name: snowflake

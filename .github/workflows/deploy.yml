@@ -36,8 +36,8 @@ jobs:
           EOF
 
       - name: Run schemachange on DEV
-        run: |
-          schemachange deploy -c schemachange-config/config-dev.yml
+        run: schemachange deploy -c schemachange-config/config-dev.yml
+
 
   test:
     name: Deploy to TEST
@@ -69,8 +69,7 @@ jobs:
           EOF
 
       - name: Run schemachange on TEST
-        run: |
-          schemachange deploy -c schemachange-config/config-dev.yml
+        run: schemachange deploy -c schemachange-config/config-test.yml
 
 
   prod:
@@ -106,7 +105,4 @@ jobs:
           EOF
 
       - name: Run schemachange on PROD
-        run: |
-          schemachange --verbose \
-            -f migrations \
-            -c schemachange-config/config-prod.yml
+        run: schemachange deploy -c schemachange-config/config-prod.yml
