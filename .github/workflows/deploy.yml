@@ -1,91 +1,115 @@
-name: Deploy to Snowflake with Schemachange
+name: Deploy Snowflake with Schemachange
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   workflow_dispatch:
 
-concurrency:
-  group: snowflake-deploy-${{ github.ref }}
-  cancel-in-progress: false
-
 jobs:
-  deploy-dev:
-    name: Deploy to DEV schema
+  dev:
+    name: Deploy to DEV
     runs-on: ubuntu-latest
-    environment: dev
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
       - name: Install schemachange
         run: pip install schemachange
 
-      - name: Run schemachange (DEV)
-        env:
-          SNOWFLAKE_ACCOUNT:   ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SNOWFLAKE_USERNAME:  ${{ secrets.SNOWFLAKE_USERNAME }}
-          SNOWFLAKE_PASSWORD:  ${{ secrets.SNOWFLAKE_PASSWORD }}
-          SNOWFLAKE_ROLE:      ${{ secrets.SNOWFLAKE_ROLE }}
-          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+      - name: Create connections.toml for DEV
         run: |
-          schemachange --verbose -c schemachange-config/config-dev.yml
+          cat <<EOF > connections.toml
+          [snowflake]
+          account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
+          user = "${{ secrets.SNOWFLAKE_USERNAME }}"
+          password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
+          role = "${{ secrets.SNOWFLAKE_ROLE }}"
+          warehouse = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
+          database = "${{ secrets.SNOWFLAKE_DATABASE }}"
+          schema = "DEV"
+          EOF
 
-  deploy-test:
-    name: Deploy to TEST schema
+      - name: Run schemachange on DEV
+        run: |
+          schemachange --verbose \
+            -f migrations \
+            -c schemachange-config/config-dev.yml
+
+  test:
+    name: Deploy to TEST
     runs-on: ubuntu-latest
-    needs: deploy-dev
-    environment: test
+    needs: dev
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
       - name: Install schemachange
         run: pip install schemachange
 
-      - name: Run schemachange (TEST)
-        env:
-          SNOWFLAKE_ACCOUNT:   ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SNOWFLAKE_USERNAME:  ${{ secrets.SNOWFLAKE_USERNAME }}
-          SNOWFLAKE_PASSWORD:  ${{ secrets.SNOWFLAKE_PASSWORD }}
-          SNOWFLAKE_ROLE:      ${{ secrets.SNOWFLAKE_ROLE }}
-          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+      - name: Create connections.toml for TEST
         run: |
-          schemachange --verbose -c schemachange-config/config-test.yml
+          cat <<EOF > connections.toml
+          [snowflake]
+          account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
+          user = "${{ secrets.SNOWFLAKE_USERNAME }}"
+          password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
+          role = "${{ secrets.SNOWFLAKE_ROLE }}"
+          warehouse = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
+          database = "${{ secrets.SNOWFLAKE_DATABASE }}"
+          schema = "TEST"
+          EOF
 
-  deploy-prod:
-    name: Deploy to PROD schema
+      - name: Run schemachange on TEST
+        run: |
+          schemachange --verbose \
+            -f migrations \
+            -c schemachange-config/config-test.yml
+
+  prod:
+    name: Deploy to PROD
     runs-on: ubuntu-latest
-    needs: deploy-test
-    environment: production   # Require approval in GitHub repo settings
+    needs: test
+    environment:
+      name: production
+      url: https://app.snowflake.com
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
       - name: Install schemachange
         run: pip install schemachange
 
-      - name: Run schemachange (PROD)
-        env:
-          SNOWFLAKE_ACCOUNT:   ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SNOWFLAKE_USERNAME:  ${{ secrets.SNOWFLAKE_USERNAME }}
-          SNOWFLAKE_PASSWORD:  ${{ secrets.SNOWFLAKE_PASSWORD }}
-          SNOWFLAKE_ROLE:      ${{ secrets.SNOWFLAKE_ROLE }}
-          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+      - name: Create connections.toml for PROD
         run: |
-          schemachange --verbose -c schemachange-config/config-prod.yml
+          cat <<EOF > connections.toml
+          [snowflake]
+          account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
+          user = "${{ secrets.SNOWFLAKE_USERNAME }}"
+          password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
+          role = "${{ secrets.SNOWFLAKE_ROLE }}"
+          warehouse = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
+          database = "${{ secrets.SNOWFLAKE_DATABASE }}"
+          schema = "PROD"
+          EOF
+
+      - name: Run schemachange on PROD
+        run: |
+          schemachange --verbose \
+            -f migrations \
+            -c schemachange-config/config-prod.yml
