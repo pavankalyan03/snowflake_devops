@@ -1,0 +1,13 @@
+modules-folder: migrations
+change-history-table: APP_DB.SCHEMACHANGE.CHANGE_HISTORY
+
+snowflake:
+  account: ${SNOWFLAKE_ACCOUNT}
+  user: ${SNOWFLAKE_USERNAME}
+  password: ${SNOWFLAKE_PASSWORD}
+  role: ${SNOWFLAKE_ROLE}
+  warehouse: ${SNOWFLAKE_WAREHOUSE}
+
+vars:
+  database: APP_DB
+  schema: DEV

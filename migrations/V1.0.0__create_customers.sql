@@ -1,0 +1,7 @@
+-- Idempotent-ish DDL (prefer CREATE TABLE IF NOT EXISTS where possible)
+CREATE TABLE IF NOT EXISTS {{ database }}.{{ schema }}.CUSTOMERS (
+  CUSTOMER_ID NUMBER,
+  NAME        STRING,
+  EMAIL       STRING,
+  CREATED_AT  TIMESTAMP_NTZ DEFAULT CURRENT_TIMESTAMP()
+);
