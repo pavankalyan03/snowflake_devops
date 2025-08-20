@@ -39,7 +39,7 @@ jobs:
         run: |
           pwd
           ls -l
-          cat schemachange-config/connections.toml
+          cat connections.toml
 
 
       - name: Run schemachange on DEV
