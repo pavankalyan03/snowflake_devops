@@ -1,7 +1,7 @@
 config-version: 1
 root-folder: './migrations'
 modules-folder: null
-connections-file-path: '../connections.toml'
+connections-file-path: './connections.toml'
 connection-name: snowflake
 change-history-table: "APP_DB.DEV.SCHEMACHANGE_HISTORY"
 create-change-history-table: true
