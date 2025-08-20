@@ -26,12 +26,12 @@ jobs:
         run: |
           cat <<EOF > connections.toml
           [snowflake]
-          account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
-          user = "${{ secrets.SNOWFLAKE_USERNAME }}"
-          password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
-          role = "${{ secrets.SNOWFLAKE_ROLE }}"
-          warehouse = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
-          database = "${{ secrets.SNOWFLAKE_DATABASE }}"
+          account = "FBB44345"
+          user = "PROFESSOR"
+          password = "6305524392Pavan@"
+          role = "ACCOUNTADMIN"
+          warehouse = "COMPUTE_WH"
+          database = "APP_DB"
           schema = "DEV"
           EOF
 
@@ -61,12 +61,12 @@ jobs:
         run: |
           cat <<EOF > connections.toml
           [snowflake]
-          account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
-          user = "${{ secrets.SNOWFLAKE_USERNAME }}"
-          password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
-          role = "${{ secrets.SNOWFLAKE_ROLE }}"
-          warehouse = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
-          database = "${{ secrets.SNOWFLAKE_DATABASE }}"
+          account = "FBB44345"
+          user = "PROFESSOR"
+          password = "6305524392Pavan@"
+          role = "ACCOUNTADMIN"
+          warehouse = "COMPUTE_WH"
+          database = "APP_DB"
           schema = "TEST"
           EOF
 
@@ -99,12 +99,12 @@ jobs:
         run: |
           cat <<EOF > connections.toml
           [snowflake]
-          account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
-          user = "${{ secrets.SNOWFLAKE_USERNAME }}"
-          password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
-          role = "${{ secrets.SNOWFLAKE_ROLE }}"
-          warehouse = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
-          database = "${{ secrets.SNOWFLAKE_DATABASE }}"
+          account = "FBB44345"
+          user = "PROFESSOR"
+          password = "6305524392Pavan@"
+          role = "ACCOUNTADMIN"
+          warehouse = "COMPUTE_WH"
+          database = "APP_DB"
           schema = "PROD"
           EOF
 
