@@ -1,0 +1,7 @@
+-- Ensures migrations don’t “leak” to wrong schema.
+
+CREATE OR REPLACE TABLE DEV.TEST_TABLE (ID INT);
+
+USE SCHEMA TEST;
+
+CREATE OR REPLACE TABLE TEST.TEST_TABLE (ID INT);
