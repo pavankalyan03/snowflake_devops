@@ -37,9 +37,7 @@ jobs:
 
       - name: Run schemachange on DEV
         run: |
-          schemachange --verbose \
-            -f migrations \
-            -c schemachange-config/config-dev.yml
+          schemachange deploy -c schemachange-config/config-dev.yml
 
   test:
     name: Deploy to TEST
@@ -72,9 +70,8 @@ jobs:
 
       - name: Run schemachange on TEST
         run: |
-          schemachange --verbose \
-            -f migrations \
-            -c schemachange-config/config-test.yml
+          schemachange deploy -c schemachange-config/config-dev.yml
+
 
   prod:
     name: Deploy to PROD
