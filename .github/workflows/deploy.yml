@@ -35,6 +35,13 @@ jobs:
           schema = "DEV"
           EOF
 
+      - name: Show connections.toml
+        run: |
+          pwd
+          ls -l
+          cat connections.toml
+
+
       - name: Run schemachange on DEV
         run: schemachange deploy -c schemachange-config/config-dev.yml
 
