@@ -26,13 +26,13 @@ jobs:
         run: |
           cat <<EOF > connections.toml
           [snowflake]
-          account = "FBB44345"
-          user = "PROFESSOR"
-          password = "987654321Pavan@"
-          role = "ACCOUNTADMIN"
-          warehouse = "COMPUTE_WH"
-          database = "APP_DB"
-          schema = "DEV"
+          account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
+          user = "${{ secrets.SNOWFLAKE_USER }}"
+          password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
+          role = "${{ secrets.SNOWFLAKE_ROLE }}"
+          warehouse = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
+          database = "${{ secrets.SNOWFLAKE_DATABASE }}"
+          schema = "DEV" 
           EOF
 
       - name: Show connections.toml
@@ -43,7 +43,7 @@ jobs:
 
 
       - name: Run schemachange on DEV
-        run: schemachange deploy -c schemachange-config.yml --change-history-table APP_DB.DEV.CHANGE_HISTORY
+        run: schemachange deploy -c schemachange-config.yml --change-history-table APP_DB.DEV.CHANGE_HISTORY --query-tag "schemachange-dev"
 
 
   test:
@@ -66,17 +66,17 @@ jobs:
         run: |
           cat <<EOF > connections.toml
           [snowflake]
-          account = "FBB44345"
-          user = "PROFESSOR"
-          password = "987654321Pavan@"
-          role = "ACCOUNTADMIN"
-          warehouse = "COMPUTE_WH"
-          database = "APP_DB"
+          account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
+          user = "${{ secrets.SNOWFLAKE_USER }}"
+          password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
+          role = "${{ secrets.SNOWFLAKE_ROLE }}"
+          warehouse = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
+          database = "${{ secrets.SNOWFLAKE_DATABASE }}"
           schema = "TEST"
           EOF
 
       - name: Run schemachange on TEST
-        run: schemachange deploy -c schemachange-config.yml --change-history-table APP_DB.TEST.CHANGE_HISTORY
+        run: schemachange deploy -c schemachange-config.yml --change-history-table APP_DB.TEST.CHANGE_HISTORY --query-tag "schemachange-test"
 
 
   prod:
@@ -102,14 +102,14 @@ jobs:
         run: |
           cat <<EOF > connections.toml
           [snowflake]
-          account = "FBB44345"
-          user = "PROFESSOR"
-          password = "987654321Pavan@"
-          role = "ACCOUNTADMIN"
-          warehouse = "COMPUTE_WH"
-          database = "APP_DB"
+          account = "${{ secrets.SNOWFLAKE_ACCOUNT }}"
+          user = "${{ secrets.SNOWFLAKE_USER }}"
+          password = "${{ secrets.SNOWFLAKE_PASSWORD }}"
+          role = "${{ secrets.SNOWFLAKE_ROLE }}"
+          warehouse = "${{ secrets.SNOWFLAKE_WAREHOUSE }}"
+          database = "${{ secrets.SNOWFLAKE_DATABASE }}"
           schema = "PROD"
           EOF
 
       - name: Run schemachange on PROD
-        run: schemachange deploy -c schemachange-config.yml --change-history-table APP_DB.PROD.CHANGE_HISTORY
+        run: schemachange deploy -c schemachange-config.yml --change-history-table APP_DB.PROD.CHANGE_HISTORY  --query-tag "schemachange-prod"
