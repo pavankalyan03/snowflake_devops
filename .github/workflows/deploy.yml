@@ -104,7 +104,7 @@ jobs:
           [snowflake]
           account = "FBB44345"
           user = "PROFESSOR"
-          password = "6305524392Pavan@"
+          password = "987654321Pavan@"
           role = "ACCOUNTADMIN"
           warehouse = "COMPUTE_WH"
           database = "APP_DB"
